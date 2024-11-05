@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Schedule, User } from './types';
 import { AdminView } from './components/AdminView';
 import { EmployeeView } from './components/EmployeeView';
 import { Header } from './components/Header';
 import { LoginForm } from './components/LoginForm';
 import { storage } from './utils/storage';
+import { wsClient } from './utils/websocket';
 
 // In a real app, these would be environment variables and the password would be hashed
 const ADMIN_CREDENTIALS = {
@@ -20,14 +21,14 @@ export function App() {
   });
   const [loginError, setLoginError] = useState<string>();
 
-  // Update schedules from storage periodically
   useEffect(() => {
-    const updateInterval = setInterval(() => {
-      const storedSchedules = storage.getSchedules();
-      setSchedules(storedSchedules);
-    }, 1000);
-
-    return () => clearInterval(updateInterval);
+    wsClient.connect();
+    wsClient.onMessage((data) => {
+      if (data.type === 'SCHEDULES_UPDATE') {
+        setSchedules(data.schedules);
+        storage.saveSchedules(data.schedules);
+      }
+    });
   }, []);
 
   // Update remaining time
@@ -72,12 +73,14 @@ export function App() {
     const updatedSchedules = [...schedules, newSchedule];
     setSchedules(updatedSchedules);
     storage.saveSchedules(updatedSchedules);
+    wsClient.send({ type: 'SCHEDULES_UPDATE', schedules: updatedSchedules });
   };
 
   const handleDeleteSchedule = (id: string) => {
     const updatedSchedules = schedules.filter((schedule) => schedule.id !== id);
     setSchedules(updatedSchedules);
     storage.saveSchedules(updatedSchedules);
+    wsClient.send({ type: 'SCHEDULES_UPDATE', schedules: updatedSchedules });
   };
 
   // Show login form if trying to access admin features without authentication
