@@ -43,7 +43,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`WebSocket server running on port ${PORT}`);
 });
