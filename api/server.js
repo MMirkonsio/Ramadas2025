@@ -5,23 +5,29 @@ import cors from 'cors';
 
 const app = express();
 const server = createServer(app);
+
+// Configurar WebSocket
 const wss = new WebSocketServer({ server });
 const clients = new Set();
 
-// Set CORS to allow requests from the frontend
+// CORS para permitir solicitudes desde el frontend en Vercel
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' ? 'https://ramadas2025.vercel.app' : 'http://localhost:5173',
   credentials: true,
 };
 
-
 app.use(cors(corsOptions));
 
+// Configurar Content Security Policy
 app.use((req, res, next) => {
   res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data:;");
   next();
 });
 
+// Ruta de Health Check
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 // WebSocket connection
 wss.on('connection', (ws) => {
@@ -45,12 +51,8 @@ wss.on('connection', (ws) => {
   ws.send(JSON.stringify({ type: 'CONNECTED' }));
 });
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
+// Escuchar en el puerto configurado en Render
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log(`WebSocket server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

@@ -19,7 +19,7 @@ class WebSocketClient {
   
       // Reintenta hasta que el servidor esté listo o se alcancen los intentos máximos
       while (!isReady && attempts < maxAttempts) {
-        const response = await fetch('https://ramadas2025.vercel.app/api/health');
+        const response = await fetch('https://ramadas2025.onrender.com/health');
 
         if (response.ok) {
           const data = await response.json();
@@ -43,7 +43,7 @@ class WebSocketClient {
   
       // En producción, usar la URL de Vercel para WebSocket
       const websocketUrl = process.env.NODE_ENV === 'production'
-        ? 'wss://ramadas2025.vercel.app/api/server'
+        ? 'wss://ramadas2025.onrender.com'
         : 'ws://localhost:3001';
 
 
