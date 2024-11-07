@@ -41,7 +41,7 @@ class WebSocketClient {
   
       if (!isReady) throw new Error('Servidor no listo');
   
-      // En producción, usar la URL de Vercel para WebSocket
+     
       const websocketUrl = process.env.NODE_ENV === 'production'
         ? 'wss://ramadas2025.onrender.com'
         : 'ws://localhost:3001';
