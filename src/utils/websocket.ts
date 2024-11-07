@@ -40,9 +40,13 @@ class WebSocketClient {
   
       if (!isReady) throw new Error('Servidor no listo');
   
-      this.ws = new WebSocket('wss://ramadas2025.up.railway.app');
+      // En producción, usar la URL de Vercel para WebSocket
+      const websocketUrl = process.env.NODE_ENV === 'production'
+        ? 'wss://https://ramadas2025.vercel.app/api/server'
+        : 'ws://localhost:3001';
 
-      
+      this.ws = new WebSocket(websocketUrl);
+
       this.ws.onopen = () => {
         console.log('WebSocket conectado');
         this.reconnectAttempts = 0;
