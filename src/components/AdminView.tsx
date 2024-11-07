@@ -56,7 +56,7 @@ export function AdminView({ schedules, onAddSchedule, onDeleteSchedule }: AdminV
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="mb-6 flex space-x-4">
+      <div className="mb-6 flex space-x-4 justify-center">
         <button
           onClick={() => setActiveTab('manage')}
           className={`flex items-center px-4 py-2 rounded-lg transition duration-200 ${
@@ -180,9 +180,9 @@ export function AdminView({ schedules, onAddSchedule, onDeleteSchedule }: AdminV
       ) : (
         <div className="bg-white rounded-xl shadow-lg">
           <div className="border-b border-gray-200 p-4">
-            <h2 className="text-xl font-semibold text-gray-800 flex items-center">
+            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
               <Users className="mr-2 text-blue-600" />
-              Niños
+              Niños en juego
             </h2>
           </div>
           <div className="p-4">

@@ -1,4 +1,3 @@
-import { Clock } from 'lucide-react';
 import { Schedule } from '../types';
 
 interface EmployeeViewProps {
@@ -39,11 +38,6 @@ export function EmployeeView({ schedules }: EmployeeViewProps) {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-          <Clock className="mr-2 text-blue-600" />
-          Niños en juego
-        </h2>
         <div className="space-y-4">
           {schedules.map((schedule) => (
             <div
@@ -72,11 +66,10 @@ export function EmployeeView({ schedules }: EmployeeViewProps) {
           ))}
           {schedules.length === 0 && (
             <div className="text-center py-8">
-              <p className="text-gray-500">No schedules assigned</p>
+              <p className="text-gray-500">Sin niños registrados</p>
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 }
