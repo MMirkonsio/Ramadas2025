@@ -19,7 +19,7 @@ class WebSocketClient {
   
       // Reintenta hasta que el servidor esté listo o se alcancen los intentos máximos
       while (!isReady && attempts < maxAttempts) {
-        const response = await fetch('https://ramadas2025.vercel.app/health');
+        const response = await fetch('https://ramadas2025.vercel.app/api/health');
 
         if (response.ok) {
           const data = await response.json();
