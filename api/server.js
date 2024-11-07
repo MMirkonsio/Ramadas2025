@@ -10,9 +10,10 @@ const clients = new Set();
 
 // Set CORS to allow requests from the frontend
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: process.env.NODE_ENV === 'production' ? 'https://ramadas2025.vercel.app' : 'http://localhost:5173',
   credentials: true,
 };
+
 
 app.use(cors(corsOptions));
 
