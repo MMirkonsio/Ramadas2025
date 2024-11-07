@@ -40,7 +40,8 @@ class WebSocketClient {
   
       if (!isReady) throw new Error('Servidor no listo');
   
-      this.ws = new WebSocket('ws://localhost:3001');
+      this.ws = new WebSocket('wss://ramadas2025.up.railway.app');
+
       
       this.ws.onopen = () => {
         console.log('WebSocket conectado');
